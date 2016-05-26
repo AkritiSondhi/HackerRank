@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main() {
+    int test;
+    long long int a;
+    long long int b;
+    long long temp1;
+    long long temp2;
+    scanf ("%d", &test);
+    while (test--){
+        scanf ("%lld", &a);
+        scanf ("%lld", &b);
+        temp1 = ceil (sqrt (a));
+        temp2 = floor (sqrt (b));
+        printf ("%lld", temp2 - temp1 + 1);
+        printf ("\n");
+    }
+    return 0;
+}
