@@ -1,0 +1,45 @@
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <limits.h>
+#include <stdbool.h>
+
+int main(){
+    int n; 
+    int i;
+    int min;
+    int temp;
+    int count;
+    scanf("%d",&n);
+    temp = n;
+    int arr[n];
+    for(int arr_i = 0; arr_i < n; arr_i++){
+       scanf("%d",&arr[arr_i]);
+    }
+    while (n > 0){
+        count = 0;
+        printf ("%d\n", n);
+        min = 1001;
+        for (i = 0; i < temp; i++){
+            if ((arr[i] < min) && (arr[i] != 0)){
+                min = arr[i];
+            }
+        }
+        for (i = 0; i < temp; i++){
+            if ((arr[i] - min)>0){
+                arr[i] = arr[i] - min;
+            }
+            else if ((arr[i] - min) == 0){
+                count++;
+                arr[i] = arr[i] - min;
+            }
+            else{
+                count++;
+            }
+        }
+        n = temp - count;
+    }    
+    return 0;
+}
