@@ -1,0 +1,27 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main(){
+    int n;
+    int space, symbol;
+    cin >> n;
+    space=n-1;
+    symbol=1;
+    for (int i=0;i<n;i++){
+        for (int j=0;j<space;j++){
+            cout<<" ";
+        }
+        for (int j=0;j<symbol;j++){
+            cout<<"#";
+        }
+        cout<<endl;
+        space--;
+        symbol++;
+    }
+    return 0;
+}
