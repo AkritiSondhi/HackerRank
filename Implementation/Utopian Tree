@@ -1,0 +1,30 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main(){
+    int t;
+    cin >> t;
+    for(int a0 = 0; a0 < t; a0++){
+        int n;
+        cin >> n;
+        int height=1;
+        while (n!=0){
+            if (n>1){
+                height=height*2;
+                height=height+1;
+                n=n-2;
+            }
+            else {
+                height=height*2;
+                n--;
+            }
+        }
+        cout<<height<<endl;
+    }
+    return 0;
+}
