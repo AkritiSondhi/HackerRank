@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main() {
+
+    int n;
+    int i;
+    int value;
+    scanf ("%d", &value);
+    scanf ("%d",&n);
+    int arr[n];
+    for (i=0; i<n; i++){
+        scanf ("%d", &arr[i]);
+    }
+    for (i=0; i<n; i++){
+        if (arr[i] == value){
+            printf ("%d", i);
+            break;
+        }
+    }
+    return 0;
+}
