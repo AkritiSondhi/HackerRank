@@ -1,0 +1,32 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        BigInteger a = s.nextBigInteger();
+        BigInteger b = s.nextBigInteger();
+        int n = s.nextInt();
+        BigInteger num = new BigInteger ("1");
+        BigInteger temp = new BigInteger ("1");
+        if (n == 1){
+            System.out.println (a.toString());
+        }
+        else if (n == 2){
+            System.out.println (b.toString());
+        }
+        else{
+            for (int i=0; i<n-2;i++){
+                temp = b.pow(2);
+                num = temp.add(a);
+                a = b;
+                b = num;
+            }
+            System.out.println (num.toString());
+      }
+    }
+}
