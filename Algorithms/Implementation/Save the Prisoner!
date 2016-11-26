@@ -1,0 +1,25 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    int test;
+    cin >> test;
+    while (test--){
+        int n;
+        int m;
+        int s;
+        int poison;
+        cin >> n >> m >> s;
+        poison = (s + m - 1) % n;
+        if (poison == 0){
+            poison = n;
+        }
+        cout << poison << endl;
+    }
+    return 0;
+}
