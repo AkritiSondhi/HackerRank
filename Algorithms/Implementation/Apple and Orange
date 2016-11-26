@@ -1,0 +1,58 @@
+#include <map>
+#include <set>
+#include <list>
+#include <cmath>
+#include <ctime>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <bitset>
+#include <cstdio>
+#include <limits>
+#include <vector>
+#include <climits>
+#include <cstring>
+#include <cstdlib>
+#include <fstream>
+#include <numeric>
+#include <sstream>
+#include <iostream>
+#include <algorithm>
+#include <unordered_map>
+
+using namespace std;
+
+
+int main(){
+    int s;
+    int t;
+    cin >> s >> t;
+    int a;
+    int b;
+    cin >> a >> b;
+    int m;
+    int n;
+    cin >> m >> n;
+    int d;
+    long int count_a = 0;
+    long int count_o = 0;
+    
+    vector<int> apple(m);
+    for(int apple_i = 0;apple_i < m;apple_i++){
+       cin >> d;
+        if (a+d >= s && a+d <= t){
+            count_a++;
+        }
+    }
+    
+    for(int orange_i = 0;orange_i < n;orange_i++){
+       cin >> d;
+        if (b+d <= t && b+d >=s){
+            count_o++;
+        }
+    }
+    cout << count_a << endl << count_o;
+    
+    return 0;
+}
