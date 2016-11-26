@@ -1,0 +1,20 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    int n;
+    int count = 0;
+    cin >> n;
+    int m = 5; //people who receive the advertisement
+    for (int i = 1; i <= n; i++){
+        count = count + m/2;
+        m = (m/2) * 3;
+    }
+    cout << count;
+    return 0;
+}
