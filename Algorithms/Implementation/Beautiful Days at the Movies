@@ -1,0 +1,28 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    int i;
+    int j;
+    int k;
+    int count = 0;
+    cin >> i >> j >> k;
+    for (int x = i; x <= j; x++){
+        int reverse = 0;
+        int temp = x;
+        while (temp != 0){
+            reverse = (reverse*10) + temp%10;
+            temp = temp/10;
+        }
+        if (abs (x - reverse) % k == 0){
+            count++;
+        }
+    }
+    cout << count;
+    return 0;
+}
