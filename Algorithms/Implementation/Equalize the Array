@@ -1,0 +1,39 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    int n;
+    int max = 0;
+    int count = 1;
+    int temp;
+    int i;
+    cin >> n;
+    int a[n];
+    for (int i = 0; i < n; i++){
+        cin >> a[i];
+    }
+    sort (a, a+n);
+    for (i = 0; i < n-1; i++){
+        if (a[i] == a[i+1]){
+            count++;
+        }
+        else if (count > max){
+            max = count;
+            count = 1;
+        }
+        else{
+            count = 1;
+        }
+    }
+    if (count > max){
+        max = count;
+    }
+    cout << n-max;
+    
+    return 0;
+}
