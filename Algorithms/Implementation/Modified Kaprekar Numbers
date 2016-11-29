@@ -1,0 +1,42 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    int p;
+    int q;
+    int temp;
+    long a;
+    long b;
+    long d;
+    int x;
+    int y;
+    int flag = 0;
+    long square = 0;
+    cin >> p >> q;
+    for (long i = p; i <= q; i++){
+        d = 0;
+        square = i * i;
+        temp = i;
+        while (temp > 0){
+            d++;
+            temp = temp / 10;
+        }
+        x = pow(10, d);
+        y = pow(10, d);
+        a = square % x;
+        b = square / y;
+        if (a + b == i){
+            cout << i << " ";
+            flag = 1;
+        }
+    }
+    if (flag == 0){
+        cout << "INVALID RANGE";
+    }
+    return 0;
+}
