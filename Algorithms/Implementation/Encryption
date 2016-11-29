@@ -1,0 +1,27 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main(){
+    string s;
+    cin >> s;
+    int n = s.length();
+    int rows = floor (sqrt(n));
+    int cols = ceil (sqrt(n));
+    if (rows*cols < n){
+        rows = rows + 1;
+    }
+    for (int j = 0; j < cols; j++){
+        for (int i = 0; i < rows; i++){
+            if ((cols*i) + j < n){
+              cout << s[(cols*i) + j];              
+            }
+        }
+        cout << " ";
+    }
+    return 0;
+}
