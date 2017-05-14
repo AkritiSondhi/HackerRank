@@ -1,0 +1,35 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    static String solve(int year){
+        String result = "";
+        int day = 13;
+        int month = 9;
+        if (year == 1918) {
+            day = 26;
+        }
+        else if (year % 400 == 0) {
+            day = 12;
+        }
+        else if (year % 4 == 0 && year % 100 != 0) {
+            day = 12;
+        }
+        else if (year < 1919 && year % 100 == 0) {
+            day = 12;
+        }
+        result = result + day +".0" + month + "." + year;
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int year = in.nextInt();
+        String result = solve(year);
+        System.out.println(result);
+    }
+}
