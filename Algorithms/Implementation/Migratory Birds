@@ -1,0 +1,32 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int[] types = new int[n];
+        for(int types_i=0; types_i < n; types_i++){
+            types[types_i] = in.nextInt();
+        }
+        
+        int[] count = new int[n];
+        for (int i: types) {
+            count[i - 1] ++;
+        }
+        int result = 0;
+        int max = count[0];
+        for (int i = 1; i < n; i++) {
+            if (max < count[i]) {
+                max = count[i];
+                result = i;
+            }
+        }
+        System.out.println (result + 1);
+        // Since we calculated taking base as 0, but id are from 1
+    }
+}
