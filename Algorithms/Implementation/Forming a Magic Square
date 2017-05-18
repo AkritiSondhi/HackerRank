@@ -1,0 +1,50 @@
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int[][] s = new int[3][3];
+        for(int s_i=0; s_i < 3; s_i++){
+            for(int s_j=0; s_j < 3; s_j++){
+                s[s_i][s_j] = in.nextInt();
+            }
+        }
+        System.out.println(findCost(s));
+    }
+
+	private static int findCost(int[][] s) {
+		int minCost = 0;
+		int[] cost = new int[8];
+		
+		int[][] magic1 = {{8,1,6},{3,5,7},{4,9,2}};
+		int[][] magic2 = {{6,1,8},{7,5,3},{2,9,4}};
+		int[][] magic3 = {{4,9,2},{3,5,7},{8,1,6}};
+		int[][] magic4 = {{2,9,4},{7,5,3},{6,1,8}};
+		int[][] magic5 = {{8,3,4},{1,5,9},{6,7,2}};
+		int[][] magic6 = {{4,3,8},{9,5,1},{2,7,6}};
+		int[][] magic7 = {{6,7,2},{1,5,9},{8,3,4}};
+		int[][] magic8 = {{2,7,6},{9,5,1},{4,3,8}};
+		
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				cost[0] = cost[0] + Math.abs(s[i][j] - magic1[i][j]);
+				cost[1] = cost[1] + Math.abs(s[i][j] - magic2[i][j]);
+				cost[2] = cost[2] + Math.abs(s[i][j] - magic3[i][j]);
+				cost[3] = cost[3] + Math.abs(s[i][j] - magic4[i][j]);
+				cost[4] = cost[4] + Math.abs(s[i][j] - magic5[i][j]);
+				cost[5] = cost[5] + Math.abs(s[i][j] - magic6[i][j]);
+				cost[6] = cost[6] + Math.abs(s[i][j] - magic7[i][j]);
+				cost[7] = cost[7] + Math.abs(s[i][j] - magic8[i][j]);
+			}
+		}
+		 minCost = cost[0];
+		for (int i = 1; i < 8; i++) {
+			if (minCost > cost[i]) {
+				minCost = cost[i];
+			}
+		}
+		return minCost;
+	}
+}
+
