@@ -1,0 +1,32 @@
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int[] height = new int[n];
+        for(int height_i=0; height_i < n; height_i++){
+            height[height_i] = in.nextInt();
+        }
+        int maxHeight = findMax(height);
+        if (k > maxHeight) {
+        	System.out.println("0");
+        }
+        else {
+        	System.out.println(maxHeight - k);
+        }
+        in.close();
+    }
+
+	private static int findMax(int[] height) {
+		int max = height[0];
+		for (int i = 1; i < height.length; i++) {
+			if (max < height[i]) {
+				max = height[i];
+			}
+		}
+		return max;
+	}
+}
