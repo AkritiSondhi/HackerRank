@@ -1,0 +1,33 @@
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String s = in.next();
+        String t = in.next();
+        int k = in.nextInt();
+        
+        if (s.length() + t.length() <= k) {
+        	System.out.println("Yes");
+        }
+        else {
+        	int changeIndex = s.length() - 1;
+        	for (int i = 0; i < s.length(); i++) {
+        		if (i > (t.length()-1) || s.charAt(i) != t.charAt(i)) {
+        			changeIndex = i;
+        		}
+        	}
+        	int operations = (Math.abs(s.length()-changeIndex)) + (Math.abs(t.length()-changeIndex));
+            if (k - operations < 0) {
+                System.out.println("No");
+            }
+        	else if ((k - operations) % 2 == 0) {
+        		System.out.println("Yes");
+        	}
+        	else {
+        		System.out.println("No");
+        	}
+        }
+    }
+}
