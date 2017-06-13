@@ -1,0 +1,156 @@
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int k = in.nextInt();
+        
+        Point queen = new Point(in.nextInt(), in.nextInt());
+        
+        Point top = new Point(-1, -1);
+        Point bottom = new Point(-1, -1);
+        Point right = new Point(-1, -1);
+        Point left = new Point(-1, -1);
+        Point topLeft = new Point(-1, -1);
+        Point topRight = new Point(-1, -1);
+        Point bottomLeft = new Point(-1, -1);
+        Point bottomRight = new Point(-1, -1);
+        
+        int possibleMoves = 0;
+        
+        for (int a0 = 0; a0 < k; a0++) {
+        	Point obs = new Point(in.nextInt(), in.nextInt());
+        	
+        	if ((right.c > obs.c || right.c == -1) && 
+        			(queen.r == obs.r) && 
+        			(queen.c < obs.c)) {
+        		right.c = obs.c;
+        		right.r = obs.r;
+        	}
+        	
+        	else if ((left.c < obs.c || left.c == -1) &&
+        			(queen.r == obs.r) &&
+        			(queen.c > obs.c)) {
+        		left.r = obs.r;
+        		left.c = obs.c;
+        	}
+        	
+        	else if ((top.r > obs.r || top.r == -1) &&
+        			(queen.c == obs.c) &&
+        			(queen.r < obs.r)) {
+        		top.r = obs.r;
+        		top.c = obs.c;
+        	}
+        	
+        	else if ((bottom.r < obs.r || bottom.r == -1) &&
+        			(queen.c == obs.c) &&
+        			(queen.r > obs.r)) {
+        		bottom.r = obs.r;
+        		bottom.c = obs.c;
+        	}
+        	
+        	else if ((queen.r - obs.r == obs.c - queen.c) &&
+        			(obs.c > queen.c) &&
+        			(obs.r < queen.r) &&
+        			((obs.r > bottomRight.r && obs.c < bottomRight.c) || bottomRight.c == -1)) {
+        		bottomRight.r = obs.r;
+        		bottomRight.c = obs.c;
+        	}
+        	
+        	else if ((queen.r - obs.r == queen.c - obs.c) &&
+        			(obs.c < queen.c) &&
+        			(obs.r < queen.r) &&
+        			((obs.r > bottomLeft.r && obs.c > bottomLeft.c) || bottomLeft.c == -1)) {
+        		bottomLeft.r = obs.r;
+        		bottomLeft.c = obs.c;
+        	}
+        	
+        	else if ((obs.r - queen.r == queen.c - obs.c) && 
+        			(obs.c < queen.c) &&
+        			(obs.r > queen.r) &&
+        			((obs.r < topLeft.r && obs.c > topLeft.c) || topLeft.c == -1)) {
+        		topLeft.r = obs.r;
+        		topLeft.c = obs.c;
+        	}
+        	
+        	else if ((obs.r - queen.r == obs.c - queen.c) &&
+        			(obs.c > queen.c) &&
+        			(obs.r > queen.r) &&
+        			((obs.r < topRight.r && obs.c < topRight.c) || topRight.c == -1)) {
+        		topRight.r = obs.r;
+        		topRight.c = obs.c;
+        	}
+        }
+        
+        if (right.c != -1) {
+        	possibleMoves += right.c - queen.c - 1;
+        }
+        else {
+        	possibleMoves += n - queen.c;
+        }
+        
+        if (bottom.c != -1) {
+        	possibleMoves += queen.r - bottom.r - 1;
+        }
+        else {
+        	possibleMoves += queen.r - 1;
+        }
+        
+        if (left.c != -1) {
+        	possibleMoves += queen.c - left.c - 1;
+        }
+        else {
+        	possibleMoves += queen.c - 1;
+        }
+        
+        if (top.c != -1) {
+        	possibleMoves += top.r - queen.r - 1;
+        }
+        else {
+        	possibleMoves += n - queen.r;
+        }
+        
+        // diagonals set
+        if (bottomRight.c != -1) {
+        	possibleMoves += bottomRight.c - queen.c - 1;
+        }
+        else {
+        	possibleMoves += Math.min(n - queen.c, queen.r - 1);
+        }
+        
+        if (bottomLeft.c != -1) {
+        	possibleMoves += queen.c - bottomLeft.c - 1;
+        }
+        else {
+        	possibleMoves += Math.min(queen.c - 1, queen.r - 1);
+        }
+        
+        if (topLeft.c != -1) {
+        	possibleMoves += queen.c - topLeft.c - 1;
+        }
+        else {
+        	possibleMoves += Math.min(queen.c - 1, n - queen.r);
+        }
+        
+        if (topRight.c != -1) {
+        	possibleMoves += topRight.c - queen.c - 1;
+        }
+        else {
+        	possibleMoves += Math.min(n - queen.c, n - queen.r);
+        }
+        
+        System.out.println(possibleMoves);
+    }
+}
+
+class Point {
+	int c;
+	int r;
+	
+	Point(int r, int c) {
+		this.r = r;
+		this.c = c;
+	}
+}
