@@ -1,0 +1,72 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    // Complete the steadyGene function below.
+    static int steadyGene(String gene) {
+        HashMap<Character, Integer> charCountMap = new HashMap<>();
+
+        charCountMap.put('A', 0);
+        charCountMap.put('G', 0);
+        charCountMap.put('C', 0);
+        charCountMap.put('T', 0);
+
+        for (char c: gene.toCharArray()) {
+            charCountMap.put(c, charCountMap.get(c) + 1);
+        }
+
+        int n = gene.length();
+        int leftIndex = 0, rightIndex = 0, minValue = n;
+
+        while(rightIndex < n - 1) {
+            char rightChar = gene.charAt(rightIndex);
+            rightIndex++;
+            charCountMap.put(rightChar, charCountMap.get(rightChar) - 1);
+
+            while(isValidGene(charCountMap, n)){
+                minValue = Math.min(minValue, rightIndex - leftIndex);
+                char leftChar = gene.charAt(leftIndex);
+                leftIndex++;
+                charCountMap.put(leftChar, charCountMap.get(leftChar) + 1);
+            }
+        }
+
+        return minValue;
+    }
+
+    private static boolean isValidGene(HashMap<Character, Integer> charCountMap, int n) {
+        for (Integer count: charCountMap.values()) {
+            if(count > n/4) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        String gene = scanner.nextLine();
+
+        int result = steadyGene(gene);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
