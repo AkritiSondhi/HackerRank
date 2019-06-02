@@ -1,0 +1,45 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.lang.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    static class MyComparator implements Comparator<String> {
+        public int compare(String x, String y) {
+            if (x.length() == y.length()) {
+                return x.compareTo(y);
+            }
+            
+            return x.length() - y.length();
+        }
+    }
+
+    // Complete the bigSorting function below.
+    static ArrayList<String> bigSorting(ArrayList<String> unsorted) {
+        Collections.sort(unsorted, new MyComparator()); 
+        return unsorted;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        ArrayList<String> unsorted = new ArrayList<>();
+        for(int i = 0; i < n; i++) {
+            unsorted.add(in.next());
+        }
+
+        unsorted = bigSorting(unsorted);
+        
+        StringBuilder output = new StringBuilder("");
+        for(String num : unsorted)
+            output.append(num+"\n");
+        System.out.println(output);
+    }
+}
