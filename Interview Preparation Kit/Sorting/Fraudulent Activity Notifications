@@ -1,0 +1,80 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+import java.util.stream.Collectors;
+
+public class Solution {
+
+    public static void main(String[] args) throws IOException {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int d = input.nextInt();
+        int notificationsCount = 0;
+        Queue<Integer> queue = new LinkedList<>();
+        int[] activityArray = new int[201];
+        
+        //Wait for d transactions before any notifications
+        for(int i = 0; i < d; i++) {
+            int transaction = input.nextInt();
+            queue.offer(transaction);
+            activityArray[transaction] = ++activityArray[transaction];
+        }
+            
+        for(int i = 0; i < n-d; i++) {
+            int newTransaction = input.nextInt();
+            
+            if(newTransaction >= (2* findMedian(activityArray, d))) {
+                notificationsCount++;
+            }
+                
+            //Remove the transaction
+            int transactionToRemove = queue.poll();
+            activityArray[transactionToRemove] = activityArray[transactionToRemove] - 1;
+            
+            //Add new transaction
+            queue.offer(newTransaction);
+            activityArray[newTransaction] = activityArray[newTransaction] + 1;
+        }
+        
+        System.out.println(notificationsCount);
+    }
+    
+    static double findMedian(int[] array, int elements) {
+        int index = 0;
+        
+        if(elements % 2 == 0) {
+            int counter = (elements / 2);
+
+            while(counter > 0) {                
+                counter -= array[index];
+                index++;
+            }
+            index--;
+
+            if (counter <= -1) {
+                return index;
+            }
+            else {
+                int firstIndex = index;
+                int secondIndex = index+1;
+                while(array[secondIndex] == 0) {
+                    secondIndex++;
+                }
+                return (double) (firstIndex + secondIndex) / 2.0;
+            }
+        }
+        // odd elements
+        else {
+            int counter = (elements / 2);
+
+            while(counter >= 0) {
+                counter -= array[index]; index++;
+            }
+            return (double) index-1;
+        }
+    }
+}
