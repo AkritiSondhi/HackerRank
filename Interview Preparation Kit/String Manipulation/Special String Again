@@ -1,0 +1,83 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+class CharCount {
+    private char character;
+    private long count;
+
+    CharCount(char character, long count) {
+        this.character = character;
+        this.count = count;
+    }
+
+    char getChar() {
+        return character;
+    }
+
+    long getCount() {
+        return count;
+    }
+}
+
+public class Solution {
+    // Complete the substrCount function below.
+    static long substrCount(int n, String s) {
+        ArrayList<CharCount> charList = new ArrayList<>();
+        long continuousCharCount = 1L;
+        
+        for (int i = 1; i < n; i++) {
+            if(s.charAt(i) == s.charAt(i - 1)) {
+                continuousCharCount++;
+            }
+            else {
+                charList.add(new CharCount(s.charAt(i - 1), continuousCharCount));
+                continuousCharCount = 1L;
+            }
+        }
+
+        charList.add(new CharCount(s.charAt(n - 1), continuousCharCount));
+        
+        long substringCount = 0L;
+        for (CharCount charCount: charList) {
+            substringCount += (charCount.getCount() + 1) * charCount.getCount() /2;
+        }
+        
+        if (charList.size() > 1) {
+            for (int i = 1; i < n - 1; i++) {
+                if (charList.get(i).getCount() == 1) {
+                    if (charList.get(i - 1).getChar() == charList.get(i + 1).getChar()) {
+                        substringCount += Math.min(charList.get(i - 1).getCount(), 
+                                charList.get(i + 1).getCount());
+                    }
+                }
+            }
+        }
+        
+        return substringCount;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        String s = scanner.nextLine();
+
+        long result = substrCount(n, s);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
