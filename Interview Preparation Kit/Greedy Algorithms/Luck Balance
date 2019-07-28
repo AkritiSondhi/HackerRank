@@ -1,0 +1,93 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    // Complete the luckBalance function below.
+    static int luckBalance(int k, int[][] contests) {
+        int size = contests.length;
+        sort(contests, 0, size - 1);
+        int totalLuck = 0;
+
+        for (int i = 0; i < size; i++) {
+            if (contests[i][1] == 0) {
+                totalLuck += contests[i][0];
+            }
+            else if (k > 0) {
+                totalLuck += contests[i][0];
+                k--;
+            }
+            else {
+                totalLuck -= contests[i][0];
+            }
+        }
+
+        return totalLuck;
+    }
+
+    private static void sort(int arr[][], int low, int high) { 
+        if (low < high) {
+            int index = partition(arr, low, high);
+            sort(arr, low, index - 1); 
+            sort(arr, index + 1, high); 
+        }
+    }
+
+    private static int partition(int arr[][], int low, int high) { 
+        int pivot = arr[high][0];  
+        int i = (low-1);
+        for (int j = low; j < high; j++) {
+            if (arr[j][0] >= pivot) { 
+                i++; 
+  
+                int[] temp = arr[i]; 
+                arr[i] = arr[j]; 
+                arr[j] = temp;
+            } 
+        } 
+  
+        int[] temp = arr[i+1]; 
+        arr[i+1] = arr[high]; 
+        arr[high] = temp; 
+  
+        return i+1; 
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] nk = scanner.nextLine().split(" ");
+
+        int n = Integer.parseInt(nk[0]);
+
+        int k = Integer.parseInt(nk[1]);
+
+        int[][] contests = new int[n][2];
+
+        for (int i = 0; i < n; i++) {
+            String[] contestsRowItems = scanner.nextLine().split(" ");
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+            for (int j = 0; j < 2; j++) {
+                int contestsItem = Integer.parseInt(contestsRowItems[j]);
+                contests[i][j] = contestsItem;
+            }
+        }
+
+        int result = luckBalance(k, contests);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
