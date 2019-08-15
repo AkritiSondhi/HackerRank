@@ -1,0 +1,100 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+import java.util.Map.Entry;
+
+public class Solution {
+
+    // Complete the reverseShuffleMerge function below.
+    static String reverseShuffleMerge(String s) {
+        Map<Character, Integer> totalChars = getCharCount(s);
+        Map<Character, Integer> neededChars = halfCharCount(totalChars);
+        SortedMap<Character, Queue<Integer>> neededCharsWithIndices = new TreeMap<Character, Queue<Integer>>();
+
+        int n = s.length();
+        int left = n;
+        int right = n - 1;
+        StringBuilder result = new StringBuilder();
+        
+        while (result.length() * 2 < n) {
+            while (left == n || totalChars.get(s.charAt(left)) > neededChars.get(s.charAt(left))) {
+                if (left < n) {
+                    totalChars.put(s.charAt(left), totalChars.get(s.charAt(left)) - 1);
+                }
+
+                left--;
+
+                char letter = s.charAt(left);
+                if (neededChars.get(letter) > 0) {
+                    if (!neededCharsWithIndices.containsKey(letter)) {
+                        neededCharsWithIndices.put(letter, new LinkedList<Integer>());
+                    }
+                    neededCharsWithIndices.get(letter).add(left);
+                }
+            }
+
+            char chosen = neededCharsWithIndices.firstKey();
+            result.append(chosen);
+
+            neededChars.put(chosen, neededChars.get(chosen) - 1);
+
+            int chosenIndex = neededCharsWithIndices.get(chosen).peek();
+            while (right >= chosenIndex) {
+                char letter = s.charAt(right);
+                if (neededCharsWithIndices.containsKey(letter)) {
+                    neededCharsWithIndices.get(letter).poll();
+                    if (neededCharsWithIndices.get(letter).isEmpty()) {
+                        neededCharsWithIndices.remove(letter);
+                    }
+                }
+
+                right--;
+            }
+            if (neededChars.get(chosen) == 0 && neededCharsWithIndices.containsKey(chosen)) {
+                neededCharsWithIndices.remove(chosen);
+            }
+        }
+        return result.toString();
+    }
+
+    static Map<Character, Integer> getCharCount(String str) {
+        Map<Character, Integer> letterTocount = new HashMap<Character, Integer>();
+        for (int i = 0; i < str.length(); i++) {
+            char letter = str.charAt(i);
+            if (!letterTocount.containsKey(letter)) {
+                letterTocount.put(letter, 0);
+            }
+            letterTocount.put(letter, letterTocount.get(letter) + 1);
+        }
+        return letterTocount;
+    }
+
+    static Map<Character, Integer> halfCharCount(Map<Character, Integer> letterTocount) {
+        Map<Character, Integer> result = new HashMap<Character, Integer>();
+        for (Entry<Character, Integer> entry : letterTocount.entrySet()) {
+            result.put(entry.getKey(), entry.getValue() / 2);
+        }
+        return result;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String s = scanner.nextLine();
+
+        String result = reverseShuffleMerge(s);
+
+        bufferedWriter.write(result);
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
