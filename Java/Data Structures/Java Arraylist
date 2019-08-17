@@ -1,0 +1,43 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+        int n1 = scan.nextInt();
+
+        for (int row = 0; row < n1; row++) {
+            int n2 = scan.nextInt();
+            ArrayList<Integer> tempList = new ArrayList<>();
+
+            for (int col = 0; col < n2; col++) {
+                tempList.add(scan.nextInt());
+            }
+
+            list.add(tempList);
+        }
+
+        int questions = scan.nextInt();
+        for (int i = 0; i < questions; i++) {
+            int x = scan.nextInt();
+            int y = scan.nextInt();
+
+            ArrayList<Integer> tempList = list.get(x - 1);
+            if (y <= tempList.size()) {
+                System.out.println(tempList.get(y - 1));
+            } 
+            else {
+                System.out.println("ERROR!");
+            }
+        }
+
+        scan.close();
+    }
+}
+
