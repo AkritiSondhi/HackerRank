@@ -1,0 +1,70 @@
+import java.util.*;
+class Solution{
+	
+	public static void main(String []argh)
+	{
+		Scanner sc = new Scanner(System.in);
+		
+		while (sc.hasNext()) {
+            ArrayList<Character> stack = new ArrayList<>();
+            int top = -1;
+			String stringInput = sc.next();
+            char[] charArray = stringInput.toCharArray();
+            int n = charArray.length;
+            boolean flag = true;
+            int i = 0;
+
+            while (i < n && flag) {
+                Character input = charArray[i];
+                i++;
+
+                switch(input) {
+                    case '(':
+                    case '{':
+                    case '[':
+                        stack.add(input);
+                        top++;
+                        break;
+
+                    case ')':
+                        if (top >= 0 && stack.get(top) == '(') {
+                            stack.remove(top);
+                            top--;
+                        }
+                        else {
+                            flag = false;
+                        }
+                        break;
+
+                    case '}':
+                        if (top >= 0 && stack.get(top) == '{') {
+                            stack.remove(top);
+                            top--;
+                        }
+                        else {
+                            flag = false;
+                        }
+                        break;
+
+                    case ']':
+                        if (top >= 0 && stack.get(top) == '[') {
+                            stack.remove(top);
+                            top--;
+                        }
+                        else {
+                            flag = false;
+                        }
+                        break;
+
+                }
+            }
+        
+            if (flag && !stack.isEmpty()) {
+                flag = false;
+            }
+
+            System.out.println(flag);
+		}
+		
+	}
+}
