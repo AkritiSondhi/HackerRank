@@ -7,7 +7,43 @@ public class test {
         int n = in.nextInt();
         int m = in.nextInt();
 
+        HashMap<Integer, Integer> countMap = new HashMap<>();import java.util.*;
+
+public class test {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        Deque<Integer> deque = new ArrayDeque<>();
+        int n = in.nextInt();
+        int m = in.nextInt();
+
         HashMap<Integer, Integer> countMap = new HashMap<>();
+        int maxCount = 0;
+
+        for (int i = 0; i < n; i++) {
+            int num = in.nextInt();
+
+            deque.offerLast(num);
+            countMap.put(num, countMap.getOrDefault(num, 0) + 1);
+
+            if (i >= m) {
+                int removed = deque.removeFirst();
+                countMap.put(removed, countMap.getOrDefault(removed, 0) - 1);
+                if (countMap.getOrDefault(removed, 0) == 0) {
+                    countMap.remove(removed);
+                }
+
+            }
+            
+            int mapSize = countMap.size();
+            if(maxCount < mapSize) {
+                maxCount = mapSize;
+            }
+        }
+
+        System.out.println(maxCount);
+        in.close();
+    }
+}
         int maxCount = 0;
 
         for (int i = 0; i < n; i++) {
