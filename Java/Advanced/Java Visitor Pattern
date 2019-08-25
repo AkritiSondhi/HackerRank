@@ -142,26 +142,26 @@ public class Solution {
     private static int [] values;
     private static Color [] colors;
     private static HashMap<Integer, HashSet<Integer>> map;
-    
+
     public static Tree solve() {
-        Scanner scan = new Scanner(System.in);
-        int numNodes = scan.nextInt();
+        Scanner scanner = new Scanner(System.in);
+        int numOfNodes = scanner.nextInt();
         
         /* Save nodes and colors */
-        values = new int[numNodes];
-        colors = new Color[numNodes];
-        map = new HashMap<>(numNodes);
-        for (int i = 0; i < numNodes; i++) {
-            values[i] = scan.nextInt();
+        values = new int[numOfNodes];
+        colors = new Color[numOfNodes];
+        map = new HashMap<>(numOfNodes);
+        for (int i = 0; i < numOfNodes; i++) {
+            values[i] = scanner.nextInt();
         }
-        for (int i = 0; i < numNodes; i++) {
-            colors[i] = scan.nextInt() == 0 ? Color.RED : Color.GREEN;
+        for (int i = 0; i < numOfNodes; i++) {
+            colors[i] = scanner.nextInt() == 0 ? Color.RED : Color.GREEN;
         }
         
         /* Save edges */
-        for (int i = 0; i < numNodes - 1; i++) {
-            int u = scan.nextInt();
-            int v = scan.nextInt();
+        for (int i = 0; i < numOfNodes - 1; i++) {
+            int u = scanner.nextInt();
+            int v = scanner.nextInt();
             
             /* Edges are undirected: Add 1st direction */
             HashSet<Integer> uNeighbors = map.get(u);
@@ -179,7 +179,7 @@ public class Solution {
             }
             vNeighbors.add(u);
         }
-        scan.close();
+        scanner.close();
         
         /* Handle 1-node tree */
         if (numNodes == 1) {
