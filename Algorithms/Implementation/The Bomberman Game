@@ -1,0 +1,134 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    // Complete the bomberMan function below.
+    static String[] bomberMan(int n, String[] grid) {
+        if (n == 1) {
+            return grid;
+        }
+
+        if (n > 6) {
+            switch((n + 1) % 4) {
+                case 0:
+                n = 3;
+                break;
+
+                case 1:
+                n = 4;
+                break;
+                
+                case 2:
+                n = 5;
+                break;
+                
+                case 3:
+                n = 6;
+                break;
+            }
+        }
+
+        int rows = grid.length;
+        int cols = grid[0].length();
+        int[][] bomb = new int[rows][cols];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                bomb[i][j] = (grid[i].charAt(j) == 'O') ? 2 : -1;
+            }
+        }
+
+        //time denotes the time for which we will find the status
+        int time = 2;
+        while (time <= n) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    
+                    if (bomb[i][j] > 0) {
+                        bomb[i][j]--;
+                    }
+                    
+                    if (time % 2 == 0 && bomb[i][j] == -1) {
+                        bomb[i][j] = 3;
+                    }
+                    
+                    if (bomb[i][j] == 0) {
+                        bomb[i][j] = -1;
+                        
+                        if (i != 0) {
+                            bomb[i - 1][j] = -1;
+                        }
+
+                        if (i != rows - 1 && bomb[i + 1][j] > 1) {
+                            bomb[i + 1][j] = -1;
+                        }
+
+                        if (j != 0) {
+                            bomb[i][j - 1] = -1;
+                        }
+
+                        if (j != cols - 1 && bomb[i][j + 1] > 1) {
+                            bomb[i][j + 1] = -1;
+                        }
+                    }
+
+                }
+            }
+
+            time++;
+        }
+
+        for (int i = 0; i < rows; i++) {
+            String position = "";
+            for (int j = 0; j < cols; j++) {
+                position += (bomb[i][j] == -1) ? "." : "O";
+            }
+            grid[i] = position;
+        }
+
+        return grid;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] rcn = scanner.nextLine().split(" ");
+
+        int r = Integer.parseInt(rcn[0]);
+
+        int c = Integer.parseInt(rcn[1]);
+
+        int n = Integer.parseInt(rcn[2]);
+
+        String[] grid = new String[r];
+
+        for (int i = 0; i < r; i++) {
+            String gridItem = scanner.nextLine();
+            grid[i] = gridItem;
+        }
+
+        String[] result = bomberMan(n, grid);
+
+        for (int i = 0; i < result.length; i++) {
+            bufferedWriter.write(result[i]);
+
+            if (i != result.length - 1) {
+                bufferedWriter.write("\n");
+            }
+        }
+
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
