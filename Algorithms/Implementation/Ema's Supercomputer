@@ -1,0 +1,149 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    // Complete the twoPluses function below.
+    static int twoPluses(String[] grid) {
+        int m = grid.length;
+        int n = grid[0].length();
+
+        char[][] gridArr = new char[m][n];
+        for (int i = 0; i < m; i++) {
+            gridArr[i] = grid[i].toCharArray();
+        }
+        
+        int largestAreaProduct = 1;
+        
+        // find the largest possible plus for each point as center
+        for (int i = 0; i < m; i++) {
+        	for (int j = 0; j < n; j++) {
+        		gridArr = new char[m][n];
+    	        for (int pos = 0; pos < m; pos++) {
+    	            gridArr[pos] = grid[pos].toCharArray();
+    	        }
+    	        
+        		Plus plus = findLargestPlusAtPoint(i, j, m, n, gridArr);
+        		
+        		// for each possible size, find the largest other plus that won't overlap.
+        		for (int size = 0; size <= plus.size; size++) {
+        			gridArr = new char[m][n];
+        	        for (int pos = 0; pos < m; pos++) {
+        	            gridArr[pos] = grid[pos].toCharArray();
+        	        }
+        			
+        			gridArr[i][j] = 'B';
+                    for (int k = 1; k <= size; k++) {
+                    	gridArr[i][j + k] = 'B';
+                    	gridArr[i][j - k] = 'B';
+                    	gridArr[i + k][j] = 'B';
+                    	gridArr[i - k][j] = 'B';
+                    }
+                    
+                    Plus otherPlus = findLargestPlus(m, n, gridArr);
+                    
+                    if (((4 * size) + 1) * otherPlus.area > largestAreaProduct) {
+                    	largestAreaProduct = ((4 * size) + 1) * otherPlus.area;
+                    }
+        		}
+        	}
+        }
+        
+        return largestAreaProduct;
+    }
+
+    static Plus findLargestPlus (int m, int n, char[][] grid) {
+        // find largest plus
+        Plus largestPlus = new Plus();
+        largestPlus.area = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 'B') {
+                    continue;
+                }
+                else {
+                    Plus testLargest = findLargestPlusAtPoint(i, j, m, n, grid);
+                    
+                    if (testLargest.area > largestPlus.area) {
+                        largestPlus = testLargest;
+                    }
+                }
+            }
+        }
+
+        return largestPlus;
+    }
+
+    static Plus findLargestPlusAtPoint (int i, int j, int m, int n, char[][] grid) {
+    	if (grid[i][j] == 'B') {
+    		Plus plus = new Plus();
+            plus.centerI = i;
+            plus.centerJ = j;
+            plus.size = -1;
+            plus.area = 0;
+
+            return plus;
+    	}
+    	
+        // expand to find largest possible plus
+        int k = 1;
+        
+        while (true) {
+            if (j + k < n && grid[i][j + k] == 'G' &&
+                j - k >= 0 && grid[i][j - k] == 'G' &&
+                i + k < m && grid[i + k][j] == 'G' &&
+                i - k >= 0 && grid[i - k][j] == 'G') {
+                k++;
+            }
+            else {
+                k--;
+                int testArea = 1 + (4 * k);
+                
+                Plus plus = new Plus();
+                plus.centerI = i;
+                plus.centerJ = j;
+                plus.size = k;
+                plus.area = testArea;
+
+                return plus;
+            }
+        }
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+
+        String[] nm = scanner.nextLine().split(" ");
+
+        int n = Integer.parseInt(nm[0]);
+
+        int m = Integer.parseInt(nm[1]);
+
+        String[] grid = new String[n];
+
+        for (int i = 0; i < n; i++) {
+            String gridItem = scanner.nextLine();
+            grid[i] = gridItem;
+        }
+
+        int result = twoPluses(grid);
+
+        System.out.println(String.valueOf(result));
+
+        scanner.close();
+    }
+}
+
+class Plus {
+    public int centerI;
+    public int centerJ;
+    public int size;
+    public int area;
+}
