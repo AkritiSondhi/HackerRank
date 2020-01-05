@@ -1,0 +1,51 @@
+#include <map>
+#include <set>
+#include <list>
+#include <cmath>
+#include <ctime>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <bitset>
+#include <cstdio>
+#include <limits>
+#include <vector>
+#include <climits>
+#include <cstring>
+#include <cstdlib>
+#include <fstream>
+#include <numeric>
+#include <sstream>
+#include <iostream>
+#include <algorithm>
+#include <unordered_map>
+
+using namespace std;
+
+unsigned long long getEvenFibonacciSum(long n) {
+    long sum = 10;
+    long num1 = 2;
+    long num2 = 8;
+    long next = (4 * num2) + num1;
+
+    while (next <= n) {
+        sum += next;
+
+        num1 = num2;
+        num2 = next;
+        next = (4 * num2) + num1;
+    }
+    return sum;
+}
+
+int main(){
+    int t;
+    cin >> t;
+    for(int a0 = 0; a0 < t; a0++){
+        long n;
+        cin >> n;
+        cout << getEvenFibonacciSum(n) << endl;
+    }
+    return 0;
+}
