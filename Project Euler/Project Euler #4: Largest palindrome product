@@ -1,0 +1,44 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int t = in.nextInt();
+        for(int a0 = 0; a0 < t; a0++){
+            int n = in.nextInt();
+            System.out.println(findLargestPalindromeProduct(n));
+        }
+    }
+
+    private static int findLargestPalindromeProduct(int n) {
+        int max = 0;
+
+        for (int i = 110; i < 1000; i += 11) {
+            for (int otherFactor = 101; otherFactor < 1000; otherFactor++) {
+                int product = i * otherFactor;
+                if (product > 99999 && product < n && max < product && isPalindrome(product)) {
+                    max = product;
+                }
+            }
+        }
+
+        return max;
+    }
+
+    private static boolean isPalindrome(int n) {
+        String number = String.valueOf(n);
+        for (int i = 0; i < 3; i++) {
+            if (number.charAt(i) != number.charAt(5 - i)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
