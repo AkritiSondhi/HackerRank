@@ -1,0 +1,53 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int t = in.nextInt();
+        for(int a0 = 0; a0 < t; a0++){
+            long n = in.nextLong();
+            System.out.println((long)findLargestPrimeFactor(n));
+        }
+    }
+
+    private static double findLargestPrimeFactor(Long n) {
+        double root = Math.ceil(Math.sqrt(n));
+        double max = 1;
+
+        for (double i = 1; i <= root; i++) {
+            if (n % i == 0) {
+                if (isPrime(i)) {
+                    if (max < i) {
+                        max = i;
+                    }
+                }
+
+                double otherFactor = n/i;
+                if (isPrime(otherFactor)) {
+                    if (max < otherFactor) {
+                        max = otherFactor;
+                    }
+                }
+            }
+        }
+
+        return max;
+    }
+
+    private static boolean isPrime(double n) {
+        double root = Math.ceil(Math.sqrt(n));
+
+        for (double i = 2; i <= root; i++) {
+            if (n % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
