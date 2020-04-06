@@ -1,0 +1,101 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    // Complete the lilysHomework function below.
+    static int lilysHomework(int[] arr) {
+        int size = arr.length;
+        int[] arr2 = arr.clone();
+        int[] ascSorted = arr.clone();
+        Arrays.sort(ascSorted);
+        int[] decSorted = ascSorted.clone();
+
+        for (int i = 0; i < size / 2; i++) { 
+            int temp = decSorted[i]; 
+            decSorted[i] = decSorted[size - i - 1]; 
+            decSorted[size - i - 1] = temp; 
+        } 
+
+        HashMap<Integer, Integer> ascMap = new HashMap();
+
+        for (int i = 0; i < size; i++) {
+            ascMap.put(arr[i], i);
+        }
+
+        HashMap<Integer, Integer> decMap = new HashMap<>(ascMap);
+
+        int countAsc = 0;
+        int countDec = 0;
+
+        for (int i = 0; i < size; i++) {
+            if (arr[i] != ascSorted[i]) {
+                countAsc++;
+
+                int index = i;
+                int sortedIndex = ascMap.get(ascSorted[i]);
+
+                int temp = arr[index];
+                arr[index] = arr[sortedIndex];
+                arr[sortedIndex] = temp;
+
+                ascMap.put(arr[index], index);
+                ascMap.put(arr[sortedIndex], sortedIndex);
+            }
+
+            if (arr2[i] != decSorted[i]) {
+                countDec++;
+
+                int index = i;
+                int sortedIndex = decMap.get(decSorted[i]);
+
+                int temp = arr2[index];
+                arr2[index] = arr2[sortedIndex];
+                arr2[sortedIndex] = temp;
+
+                decMap.put(arr2[index], index);
+                decMap.put(arr2[sortedIndex], sortedIndex);
+            }
+        }
+
+        if (countAsc < countDec) {
+            return countAsc;
+        }
+        else {
+            return countDec;
+        }
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        int[] arr = new int[n];
+
+        String[] arrItems = scanner.nextLine().split(" ");
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        for (int i = 0; i < n; i++) {
+            int arrItem = Integer.parseInt(arrItems[i]);
+            arr[i] = arrItem;
+        }
+
+        int result = lilysHomework(arr);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
