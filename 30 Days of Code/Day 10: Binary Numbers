@@ -1,0 +1,46 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+import java.util.stream.*; 
+import static java.util.stream.Collectors.joining;
+
+public class Solution {
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        String binaryString = Integer.toBinaryString(n);
+        int length = binaryString.length();
+        int count = 0;
+        int maxCount = 0;
+
+        for (int i = 0; i < length; i++) {
+            if (binaryString.charAt(i) == '1') {
+                count++;
+
+                if (i == length - 1) {
+                    if (count > maxCount) {
+                        maxCount = count;
+                    }
+                }
+            } else {
+                // check for max count
+                if (count > maxCount) {
+                    maxCount = count;
+                }
+                count = 0;
+            }
+        }
+
+        System.out.println(maxCount);
+
+        scanner.close();
+    }
+}
